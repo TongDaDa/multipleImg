@@ -1,0 +1,1 @@
+{"dependencies":[{"name":"./src/multipleImg","loc":{"line":1,"column":25}}],"generated":{"js":"\"use strict\";\n\nmodule.exports = require('./src/multipleImg');"},"hash":"6e5fdbe6b99a657cf54fe8dba8d6ae9a"}

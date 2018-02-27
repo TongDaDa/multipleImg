@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #img{
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <img src="../img/loading.gif" id="img" alt=""
+             data-dpr-1="https://parceljs.org/assets/logo.svg"
+             data-dpr-2="..img/test@2x.jpg"
+             data-dpr-3="../img/test@3x.jpg"
+        />
+        <div class="bg">
+
+        </div>
+    </div>
+    <script src="../../src/multipleImg.js"></script>
+    <script src="./test.js"></script>
+    <script>
+        window.addEventListener('load',function () {
+            const img = document.getElementById('img')
+            if (window.multipleImg) {
+                multipleImg(img)
+            }
+        })
+    </script>
+</body>
+</html>

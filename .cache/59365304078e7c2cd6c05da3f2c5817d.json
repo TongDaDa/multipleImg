@@ -1,0 +1,1 @@
+{"dependencies":[{"name":"retinajs"}],"generated":{"js":"\"use strict\";\n\nvar _retinajs = require(\"retinajs\");\n\nvar _retinajs2 = _interopRequireDefault(_retinajs);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nconsole.log(_retinajs2.default);"},"hash":"e7b815040297e7636eb8400ba40e6b6f"}

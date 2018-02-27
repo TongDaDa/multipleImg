@@ -1,0 +1,8 @@
+{
+    "presets":["es2015"],
+    "env":{
+        "production_min":{
+            "presets":["minify"]
+        }
+    }    
+}
