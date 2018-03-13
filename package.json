@@ -6,7 +6,7 @@
   "scripts": {
     "test": "parcel ./text/browser/index.html --public-url ./test/img",
     "lint": "eslint ./src/multipleImg.js",
-    "start": "parcel -p 1234 --public-url ./text"
+    "start": "parcel -p 1234"
   },
   "repository": {
     "type": "git",

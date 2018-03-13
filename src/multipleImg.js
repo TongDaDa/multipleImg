@@ -16,7 +16,7 @@ const pingimgPromise = (url) => {
             reslove("success")
         }
         Img.onerror = () => {
-            reject("error")
+            reject(`${url} load error`)
         }
         setTimeout(() => {
             reject("timeout")
@@ -61,7 +61,7 @@ const getDprAttr = (ele)=>{
     let drs = [];
     for (let i = 0; i<attrs.length; ++i) {
         drs.push({
-            scale:attrs[i].replace(/^dpr-/, ""),
+            scale:attrs[i].replace(/^data-dpr-/, ""),
             src:ele.getAttribute(attrs[i])
         })
     }
@@ -83,28 +83,18 @@ const getDprRatio = () => {
  */
 function matchDprSrc(dprs, cb) {
     const rat = getDprRatio();
-    let matchDpr = [];
-    if (Array.isArray(dprs)) {
-        matchDpr = dprs.filter((imgItem)=>{
-            return rat === parseInt(imgItem.scale, 10);
-        })
-        if (matchDpr.length >= 1) {
-            cb && cb(matchDpr[0].src);
-        } else {
-            let positive = [], negative = [];
-            const arr = dprs.map((imgItem)=>({subTract:imgItem.scale - rat, src:imgItem.src}));
-            for (let i=0; i<arr.length; i++) {
-                if (arr[i] >= 0) {
-                    positive.push(arr[i])
-                } else {
-                    negative.push(arr[i])
-                }
-            }
-            matchDpr = criticalValue ? positive.sort((a,b)=>{ a=a.subTract; b=b.subTract; return a-b })
-                                     : negative.sort((a,b)=>{ a=a.subTract; b=b.subTract; return b-a })
-            cb && cb(matchDpr[0].src)
-        }
+    let matchDpr = dprs.filter((imgItem)=>rat === parseInt(imgItem.scale, 10)),
+        positive = [],
+        negative = [];
+    if (!Array.isArray(dprs)) { return }
+    const arr = dprs.map((imgItem)=>({subTract:imgItem.scale - rat, src:imgItem.src}));
+    for (let i=0; i<arr.length; i++) {
+        arr[i] >= 0 ? positive.push(arr[i])
+            : negative.push(arr[i]);
     }
+    matchDpr = criticalValue ? positive.sort((a,b)=>{ a=a.subTract; b=b.subTract; return a-b })
+                             : negative.sort((a,b)=>{ a=a.subTract; b=b.subTract; return b-a })
+    cb && cb(matchDpr[0].src)
 }
 
 /**
@@ -129,13 +119,12 @@ function multipleImg(images) {
             images = [images];
         }
         images.forEach((image) => {
-            const dprs = getDprAttr(image)
-            matchDprSrc(dprs, (src) => {
+            matchDprSrc(getDprAttr(image), (src) => {
                 pingimgPromise(src).then(() => {
                     image.setAttribute('src', src);
                     clearAttribute(image)
                 }).catch((err)=>{
-                    console.warn("multipleImg.js load img lose, use default src url");
+                    console.error("multipleImg.js load img lose, use default src url : " + err);
                     clearAttribute(image)
                 })
             });

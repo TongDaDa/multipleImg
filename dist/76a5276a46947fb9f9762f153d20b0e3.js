@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({2:[function(require,module,exports) {
+})({7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -93,7 +93,7 @@ var pingimgPromise = function pingimgPromise(url) {
       reslove("success");
     };
     Img.onerror = function () {
-      reject("error");
+      reject(url + " load error");
     };
     setTimeout(function () {
       reject("timeout");
@@ -141,7 +141,7 @@ var getDprAttr = function getDprAttr(ele) {
   var drs = [];
   for (var i = 0; i < attrs.length; ++i) {
     drs.push({
-      scale: attrs[i].replace(/^dpr-/, ""),
+      scale: attrs[i].replace(/^data-dpr-/, ""),
       src: ele.getAttribute(attrs[i])
     });
   }
@@ -163,34 +163,26 @@ var getDprRatio = function getDprRatio() {
  */
 function matchDprSrc(dprs, cb) {
   var rat = getDprRatio();
-  var matchDpr = [];
-  if (Array.isArray(dprs)) {
-    matchDpr = dprs.filter(function (imgItem) {
-      return rat === parseInt(imgItem.scale, 10);
-    });
-    if (matchDpr.length >= 1) {
-      cb && cb(matchDpr[0].src);
-    } else {
-      var positive = [],
-          negative = [];
-      var arr = dprs.map(function (imgItem) {
-        return { subTract: imgItem.scale - rat, src: imgItem.src };
-      });
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i] >= 0) {
-          positive.push(arr[i]);
-        } else {
-          negative.push(arr[i]);
-        }
-      }
-      matchDpr = criticalValue ? positive.sort(function (a, b) {
-        a = a.subTract;b = b.subTract;return a - b;
-      }) : negative.sort(function (a, b) {
-        a = a.subTract;b = b.subTract;return b - a;
-      });
-      cb && cb(matchDpr[0].src);
-    }
+  var matchDpr = dprs.filter(function (imgItem) {
+    return rat === parseInt(imgItem.scale, 10);
+  }),
+      positive = [],
+      negative = [];
+  if (!Array.isArray(dprs)) {
+    return;
   }
+  var arr = dprs.map(function (imgItem) {
+    return { subTract: imgItem.scale - rat, src: imgItem.src };
+  });
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] >= 0 ? positive.push(arr[i]) : negative.push(arr[i]);
+  }
+  matchDpr = criticalValue ? positive.sort(function (a, b) {
+    a = a.subTract;b = b.subTract;return a - b;
+  }) : negative.sort(function (a, b) {
+    a = a.subTract;b = b.subTract;return b - a;
+  });
+  cb && cb(matchDpr[0].src);
 }
 
 /**
@@ -215,13 +207,12 @@ function multipleImg(images) {
       images = [images];
     }
     images.forEach(function (image) {
-      var dprs = getDprAttr(image);
-      matchDprSrc(dprs, function (src) {
+      matchDprSrc(getDprAttr(image), function (src) {
         pingimgPromise(src).then(function () {
           image.setAttribute('src', src);
           clearAttribute(image);
         }).catch(function (err) {
-          console.warn("multipleImg.js load img lose, use default src url");
+          console.error("multipleImg.js load img lose, use default src url : " + err);
           clearAttribute(image);
         });
       });
@@ -257,7 +248,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':63620/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':49972/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
@@ -358,4 +349,4 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id)
   });
 }
-},{}]},{},[0,2])
+},{}]},{},[0,7])

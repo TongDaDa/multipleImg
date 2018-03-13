@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
+})({13:[function(require,module,exports) {
 (function(a, b) {
   'object' == typeof exports && 'undefined' != typeof module
     ? (module.exports = b())
@@ -148,7 +148,7 @@ require = (function (modules, cache, entry) {
   );
 });
 
-},{}],4:[function(require,module,exports) {
+},{}],9:[function(require,module,exports) {
 "use strict";
 
 var _retinajs = require("retinajs");
@@ -158,7 +158,7 @@ var _retinajs2 = _interopRequireDefault(_retinajs);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 console.log(_retinajs2.default);
-},{"retinajs":8}],0:[function(require,module,exports) {
+},{"retinajs":13}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -176,7 +176,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':63620/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':49972/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
@@ -277,4 +277,4 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id)
   });
 }
-},{}]},{},[0,4])
+},{}]},{},[0,9])

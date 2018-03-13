@@ -69,14 +69,14 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({7:[function(require,module,exports) {
+})({2:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var MATCH_ATTRIBUTE = /^dpr-[\d]+$/;
+var MATCH_ATTRIBUTE = /^data-dpr-[\d]+$/;
 var IMG_TIMEOUT = 5000;
 var criticalValue = false;
 
@@ -239,11 +239,11 @@ if (window) {
 }
 
 exports.default = multipleImg;
-},{}],5:[function(require,module,exports) {
+},{}],1:[function(require,module,exports) {
 "use strict";
 
 module.exports = require('./src/multipleImg');
-},{"./src/multipleImg":7}],0:[function(require,module,exports) {
+},{"./src/multipleImg":2}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -261,7 +261,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':64582/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':49774/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
@@ -362,4 +362,4 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id)
   });
 }
-},{}]},{},[0,5])
+},{}]},{},[0,1])
